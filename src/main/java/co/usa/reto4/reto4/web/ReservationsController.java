@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import co.usa.reto4.reto4.model.Reservations;
+import co.usa.reto4.reto4.reportes.ContadorClientes;
+import co.usa.reto4.reto4.reportes.StatusReservas;
 import co.usa.reto4.reto4.service.ReservationsService;
 
 @RestController
@@ -52,5 +54,20 @@ public class ReservationsController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public boolean deleteReservation(@PathVariable("id") int id){
         return reservationsService.deleteReservation(id);
+    }
+
+    @GetMapping("/report-status")
+    public StatusReservas getReservas(){
+        return reservationsService.reporteStatusServicio();
+    }
+    
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<Reservations> getReservasTiempo (@PathVariable("dateOne")String dateOne, @PathVariable("dateTwo")String dateTwo ){
+        return reservationsService.reporteTiempoServicio(dateOne, dateTwo);
+    }
+     
+    @GetMapping("/report-clients")
+    public List<ContadorClientes> getClientes(){
+        return reservationsService.reporteClientesServicio();
     }
 }
